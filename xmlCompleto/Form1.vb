@@ -28,7 +28,7 @@ Public Class Form1
         pass = TextBox2.Text
         clase = New Class1(pass)
         encript = clase.EncryptData(pass)
-        If File.Exists(ruta) Then
+        If File.Exists(ruta) Then 'Si existe comprueba los datos, si no crea el archivo.
             If (clase.Buscar(ruta, usuario, encript)) Then
                 MsgBox("Loged")
 

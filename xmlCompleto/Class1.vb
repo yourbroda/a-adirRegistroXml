@@ -61,22 +61,22 @@ Public Class Class1
         Return System.Text.Encoding.Unicode.GetString(ms.ToArray)
     End Function
 
-    Public Function agregar(id As String, Ipassword As String, ruta As String) As Boolean
+    Public Function agregar(id As String, Ipassword As String, ruta As String) As Boolean 'programa que añade un id a un registro en XML
         Dim documento As New XmlDocument
 
 
 
         documento.Load(ruta)
-        Dim usuario As XmlElement = documento.CreateElement("usuario")
-        Dim atributoID As XmlAttribute = documento.CreateAttribute("id")
-        atributoID.InnerText = id
-        usuario.SetAttributeNode(atributoID)
-        Dim password As XmlElement = documento.CreateElement("password")
-        password.InnerText = Ipassword
+        Dim usuario As XmlElement = documento.CreateElement("usuario") 'Crea u elemento llamado usuario.
+        Dim atributoID As XmlAttribute = documento.CreateAttribute("id") 'Crea un atributo 
+        atributoID.InnerText = id 'asigna el valor de id 
+        usuario.SetAttributeNode(atributoID) 'se le asigna al nodo de usuario el id de atributoID
+        Dim password As XmlElement = documento.CreateElement("password") 'Crea un elemento password
+        password.InnerText = Ipassword 'Añade valor o texto entre las etiquetas password
 
-        usuario.AppendChild(password)
-        documento.DocumentElement.AppendChild(usuario)
-        documento.Save(ruta)
+        usuario.AppendChild(password) 'cierra el nodo password  hijo de el nodo usuario
+        documento.DocumentElement.AppendChild(usuario) 'cierra el nodo usuario
+        documento.Save(ruta) 'Guarda el archivo en la ruta otra vez.
         Return True
 
     End Function
@@ -84,7 +84,7 @@ Public Class Class1
     Function agregar() As Boolean
         Throw New NotImplementedException
     End Function
-    Public Function Buscar(ruta As String, path As String, pass As String) As Boolean
+    Public Function Buscar(ruta As String, path As String, pass As String) As Boolean 'Busca Nodos en el archivo con la pass y el id
 
 
         Dim docNav As XPathDocument
@@ -98,10 +98,10 @@ Public Class Class1
         Try
             docNav = New XPathDocument(ruta)
             nav = docNav.CreateNavigator
-            strExpression = "//usuario[@id='" & path & "' and password ='" & pass & "'] "
+            strExpression = "//usuario[@id='" & path & "' and password ='" & pass & "'] " 'XPath
 
             nodeIter = nav.Select(strExpression)
-            If nodeIter.Count() > 0 Then
+            If nodeIter.Count() > 0 Then ' si da mas de 0 es que existe
                 Return True
             Else
                 Return False
@@ -122,19 +122,19 @@ Public Class Class1
 
         Return False
     End Function
-    Public Sub crearXml(ruta As String, nombre As String, password As String)
+    Public Sub crearXml(ruta As String, nombre As String, password As String) 'Crear un Xml en la ruta expecificada
         Try
             Dim xmldocument As New XmlTextWriter(ruta, System.Text.Encoding.UTF8)
-            xmldocument.Formatting = Formatting.Indented
+            xmldocument.Formatting = Formatting.Indented '
             xmldocument.WriteStartDocument()
-            xmldocument.WriteStartElement("Usuarios")
-            xmldocument.WriteStartElement("usuario")
-            xmldocument.WriteAttributeString("id", nombre)
-            xmldocument.WriteElementString("password", password)
-            xmldocument.WriteEndElement()
-            xmldocument.WriteEndElement()
-            xmldocument.WriteEndDocument()
-            xmldocument.Close()
+            xmldocument.WriteStartElement("Usuarios") 'Crea el elemento de apertura de usuarios
+            xmldocument.WriteStartElement("usuario") 'Crea el elemento usuario dentro del elemento usuarios. 
+            xmldocument.WriteAttributeString("id", nombre) 'Crea un atributo para usuario con el parametro pasado por referencia
+            xmldocument.WriteElementString("password", password) 'Crea un nodo password con el strin password
+            xmldocument.WriteEndElement() 'cierra elemento
+            xmldocument.WriteEndElement() 'cierra elemento
+            xmldocument.WriteEndDocument() 'cierra el docuto
+            xmldocument.Close() 'Cerramos el documento para que se guarde.
         Catch ex As Exception
             MsgBox("error en la ruta")
         End Try
